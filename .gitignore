@@ -1,0 +1,26 @@
+# ==== Variáveis de ambiente / segredos ====
+.env
+.env.*
+!.env.example
+
+# ==== Node.js (backend e frontend) ====
+node_modules/
+dist/
+build/
+coverage/
+*.log
+npm-debug.log*
+
+# ==== Banco de dados local ====
+*.sqlite
+*.sqlite3
+pgdata/
+
+# ==== Editor / SO ====
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ==== Docker ====
+*.pid
