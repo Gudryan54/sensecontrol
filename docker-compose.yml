@@ -1,0 +1,46 @@
+# ============================================================
+# SenseControl - Docker Compose
+# ============================================================
+# Nesta etapa (Etapa 1), este arquivo já sobe os dois serviços de
+# infraestrutura que o restante do projeto vai depender: o banco de
+# dados PostgreSQL (com o schema e os dados de demonstração já
+# aplicados automaticamente) e o broker MQTT (Mosquitto).
+#
+# Nas próximas etapas, os serviços "backend" e "frontend" serão
+# adicionados aqui mesmo, e o comando `docker compose up` passará a
+# subir o sistema completo com um único comando.
+# ============================================================
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: sensecontrol-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-sensecontrol}
+      POSTGRES_USER: ${POSTGRES_USER:-sensecontrol_app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-troque_esta_senha_antes_de_usar}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Todo .sql aqui dentro roda automaticamente na 1a inicialização
+      # do volume, em ordem alfabética (migrations 001-008, seed 009).
+      - ./database:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-sensecontrol_app} -d ${POSTGRES_DB:-sensecontrol}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: sensecontrol-mosquitto
+    restart: unless-stopped
+    ports:
+      - "${MQTT_PORT:-1883}:1883"
+    volumes:
+      - ./iot/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+
+volumes:
+  pgdata:
