@@ -24,7 +24,7 @@ A documentação técnica completa original do produto (requisitos, casos de uso
 
 ```
 sensecontrol/
-├── backend/          # API REST + WebSocket (Node.js/TypeScript/Express) - a partir da Etapa 2
+├── backend/          # API REST (Node.js/TypeScript/Express) - a partir da Etapa 2
 ├── frontend/         # Dashboard web (React/TypeScript/Vite) - a partir da Etapa 4
 ├── iot/              # Configuração do broker MQTT e simulador de sensores - a partir da Etapa 3
 ├── database/         # Migrations SQL do schema + dados fictícios de demonstração (já implementado)
@@ -41,7 +41,7 @@ sensecontrol/
 - [x] Etapa 1 - Estrutura do repositório, Docker Compose (banco de dados + broker MQTT), schema do banco e dados de demonstração.
 - [x] Etapa 2 - Backend: API de cadastros e leituras.
 - [x] Etapa 3 - Simulador IoT + ingestão via MQTT.
-- [ ] Etapa 4 - Dashboard.
+- [x] Etapa 4 - Dashboard.
 - [ ] Etapa 5 - Detecção de desperdício e alertas.
 - [ ] Etapa 6 - Recomendações.
 - [ ] Etapa 7 - Autenticação (JWT).
@@ -50,7 +50,7 @@ sensecontrol/
 
 ## Como rodar (estado atual)
 
-Veja [`docs/COMO_RODAR.md`](docs/COMO_RODAR.md) - nesta etapa, já é possível subir o banco de dados, a API REST e o simulador de sensores IoT publicando leituras via MQTT (incluindo um modo que simula um possível vazamento).
+Veja [`docs/COMO_RODAR.md`](docs/COMO_RODAR.md) - nesta etapa, já é possível subir o banco de dados, a API REST, o simulador de sensores IoT publicando leituras via MQTT (incluindo um modo que simula um possível vazamento) e o dashboard web mostrando consumo atual e histórico de água/energia, atualizando ao vivo conforme novas leituras chegam.
 
 ## Equipe
 

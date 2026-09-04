@@ -1,0 +1,198 @@
+:root {
+  --cor-fundo: #f5f6f8;
+  --cor-superficie: #ffffff;
+  --cor-texto: #1f2430;
+  --cor-texto-suave: #5b6272;
+  --cor-borda: #e2e4ea;
+  --cor-grade: #e9eaf0;
+  --cor-agua: #2f8fd6;
+  --cor-energia: #e8a33d;
+  --cor-erro: #c0392b;
+  --cor-erro-bg: #fdecea;
+
+  --status-ativo: #1e8e5a;
+  --status-aguardando: #b8860b;
+  --status-offline: #8a8f9c;
+
+  color-scheme: light dark;
+  font:
+    16px/1.5 system-ui,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cor-fundo: #14161c;
+    --cor-superficie: #1c1f27;
+    --cor-texto: #eef0f4;
+    --cor-texto-suave: #9aa1b2;
+    --cor-borda: #2b2f3a;
+    --cor-grade: #2b2f3a;
+    --cor-erro-bg: #3a2323;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+
+.pagina {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+.cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.cabecalho h1 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.status-badge {
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--cor-borda);
+  color: var(--cor-texto-suave);
+  background: var(--cor-superficie);
+}
+
+.status-badge.status-ativo {
+  color: var(--status-ativo);
+  border-color: var(--status-ativo);
+}
+.status-badge.status-aguardando_conexao {
+  color: var(--status-aguardando);
+  border-color: var(--status-aguardando);
+}
+.status-badge.status-offline {
+  color: var(--status-offline);
+}
+
+.mensagem-central {
+  text-align: center;
+  color: var(--cor-texto-suave);
+  margin: 48px 0;
+}
+
+.mensagem-erro {
+  color: var(--cor-erro);
+  background: var(--cor-erro-bg);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.tile {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.tile-cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tile-icone {
+  font-size: 20px;
+}
+
+.tile h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--cor-texto-suave);
+}
+
+.tile-valor-principal {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 12px 0 0;
+}
+
+.tile-unidade {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--cor-texto-suave);
+  margin-left: 6px;
+}
+
+.tile-legenda {
+  color: var(--cor-texto-suave);
+  font-size: 13px;
+  margin: 2px 0 12px;
+}
+
+.tile-rodape {
+  font-size: 13px;
+  color: var(--cor-texto-suave);
+  border-top: 1px solid var(--cor-borda);
+  padding-top: 10px;
+}
+
+.graficos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.grafico {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.grafico h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.grafico-vazio {
+  color: var(--cor-texto-suave);
+  font-size: 14px;
+}
+
+.rodape {
+  margin-top: auto;
+  padding-top: 32px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--cor-texto-suave);
+}
+
+code {
+  font-family: ui-monospace, Consolas, monospace;
+  background: var(--cor-grade);
+  padding: 2px 6px;
+  border-radius: 4px;
+}

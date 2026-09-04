@@ -40,3 +40,19 @@ export async function criarSensor(dados: {
   );
   return result.rows[0];
 }
+
+export async function listarSensoresPorDispositivo(dispositivoId: number): Promise<Sensor[]> {
+  const dispositivo = await pool.query('SELECT 1 FROM dispositivos WHERE id = $1', [
+    dispositivoId,
+  ]);
+  if (dispositivo.rowCount === 0) {
+    throw ApiError.notFound(`Dispositivo ${dispositivoId} não encontrado.`);
+  }
+
+  const result = await pool.query<Sensor>(
+    `SELECT id, dispositivo_id, tipo, unidade_medida, criado_em
+     FROM sensores WHERE dispositivo_id = $1 ORDER BY id`,
+    [dispositivoId],
+  );
+  return result.rows;
+}

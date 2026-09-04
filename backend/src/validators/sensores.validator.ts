@@ -24,3 +24,7 @@ export const criarSensorSchema = z
       'unidade_medida incompatível com tipo: sensores de "agua" usam "litros", sensores de "energia" usam "kWh".',
     path: ['unidade_medida'],
   });
+
+export const listarSensoresQuerySchema = z.object({
+  dispositivo_id: z.coerce.number().int().positive('dispositivo_id é obrigatório e deve ser um número'),
+});

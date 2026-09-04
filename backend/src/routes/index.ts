@@ -5,6 +5,7 @@ import { locaisRouter } from './locais.routes';
 import { dispositivosRouter } from './dispositivos.routes';
 import { sensoresRouter } from './sensores.routes';
 import { leiturasRouter } from './leituras.routes';
+import { consumoDiarioRouter } from './consumoDiario.routes';
 
 export const router = Router();
 
@@ -14,3 +15,4 @@ router.use(locaisRouter);
 router.use(dispositivosRouter);
 router.use(sensoresRouter);
 router.use(leiturasRouter);
+router.use(consumoDiarioRouter);

@@ -1,4 +1,4 @@
-# Como rodar - estado atual do projeto (Etapa 3)
+# Como rodar - estado atual do projeto (Etapa 4)
 
 ## Pré-requisitos
 
@@ -82,10 +82,28 @@ A Etapa 5 (detecção de desperdício) vai usar exatamente esse padrão de consu
 
 Detalhes de implementação do simulador em `iot/README.md`.
 
+## Passo 4 - Dashboard (frontend)
+
+Com a infraestrutura (passo 1) e o backend (passo 2) já no ar, em um **quarto terminal**:
+
+```bash
+cd frontend
+cp .env.example .env
+npm install
+
+npm run dev
+```
+
+Abra `http://localhost:5173` no navegador. Você deve ver dois tiles (água e energia) com o consumo do dia e a última leitura recebida, e dois gráficos com o histórico diário dos últimos dias, populados pelo seed de demonstração.
+
+Para ver a tela atualizando ao vivo, rode o simulador (passo 3) em um quinto terminal — os tiles e gráficos se atualizam sozinhos a cada 5 segundos, sem precisar recarregar a página.
+
+Detalhes de implementação do dashboard em `frontend/README.md`.
+
 ## Para desligar tudo
 
 ```bash
-# Pare o simulador (Ctrl+C) e o backend (Ctrl+C), nos respectivos terminais
+# Pare o frontend (Ctrl+C), o simulador (Ctrl+C) e o backend (Ctrl+C), nos respectivos terminais
 
 # E os serviços de infraestrutura:
 docker compose down
@@ -96,4 +114,4 @@ docker compose down -v
 
 ## Nas próximas etapas
 
-Conforme o dashboard (frontend) for implementado, este documento será atualizado (veja `docs/ROADMAP.md`). Na Etapa 9, backend e frontend entram no `docker-compose.yml`, e todo o sistema sobe com um único `docker compose up`.
+Conforme alertas, recomendações e autenticação forem implementados, este documento será atualizado (veja `docs/ROADMAP.md`). Na Etapa 9, backend e frontend entram no `docker-compose.yml`, e todo o sistema sobe com um único `docker compose up`.
