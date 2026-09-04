@@ -40,7 +40,7 @@ sensecontrol/
 
 - [x] Etapa 1 - Estrutura do repositório, Docker Compose (banco de dados + broker MQTT), schema do banco e dados de demonstração.
 - [x] Etapa 2 - Backend: API de cadastros e leituras.
-- [ ] Etapa 3 - Simulador IoT + ingestão via MQTT.
+- [x] Etapa 3 - Simulador IoT + ingestão via MQTT.
 - [ ] Etapa 4 - Dashboard.
 - [ ] Etapa 5 - Detecção de desperdício e alertas.
 - [ ] Etapa 6 - Recomendações.
@@ -50,7 +50,7 @@ sensecontrol/
 
 ## Como rodar (estado atual)
 
-Veja [`docs/COMO_RODAR.md`](docs/COMO_RODAR.md) - nesta etapa, já é possível subir o banco de dados com o schema e dados de demonstração aplicados via `docker compose up`.
+Veja [`docs/COMO_RODAR.md`](docs/COMO_RODAR.md) - nesta etapa, já é possível subir o banco de dados, a API REST e o simulador de sensores IoT publicando leituras via MQTT (incluindo um modo que simula um possível vazamento).
 
 ## Equipe
 

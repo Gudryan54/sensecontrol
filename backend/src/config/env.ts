@@ -21,4 +21,8 @@ export const env = {
   port: Number(process.env.PORT ?? 3000),
   databaseUrl: required('DATABASE_URL'),
   leituraValorMaximo: Number(process.env.LEITURA_VALOR_MAXIMO ?? 1000),
+  // Não é "required": o backend deve subir e continuar atendendo a API
+  // REST mesmo se o broker MQTT estiver fora do ar no momento (o
+  // cliente MQTT tenta reconectar sozinho - ver src/mqtt/client.ts).
+  mqttUrl: process.env.MQTT_URL ?? 'mqtt://localhost:1883',
 };

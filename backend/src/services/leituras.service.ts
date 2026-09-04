@@ -21,6 +21,13 @@ const LIMITE_MAXIMO_RESULTADOS = 1000;
  *
  * A detecção de desperdício/geração de alertas (passos 44-45) fica
  * para a Etapa 5 - aqui só persistimos o dado.
+ *
+ * Também ativa o dispositivo (status "aguardando_conexao" -> "ativo")
+ * na primeira leitura recebida de qualquer um dos seus sensores - o
+ * caso de uso de cadastro de dispositivo (seção 5 da documentação
+ * técnica) registra o dispositivo como "aguardando_conexao"; ele só
+ * faz sentido virar "ativo" quando realmente começa a enviar dados,
+ * seja via HTTP (teste manual) ou MQTT (simulador/gateway real).
  */
 export async function registrarLeitura(dados: {
   sensor_id: number;
@@ -47,6 +54,13 @@ export async function registrarLeitura(dados: {
        ON CONFLICT (sensor_id, data)
        DO UPDATE SET consumo_total = consumo_diario.consumo_total + EXCLUDED.consumo_total`,
       [leitura.sensor_id, leitura.timestamp, dados.valor],
+    );
+
+    await client.query(
+      `UPDATE dispositivos SET status = 'ativo'
+       WHERE status = 'aguardando_conexao'
+         AND id = (SELECT dispositivo_id FROM sensores WHERE id = $1)`,
+      [leitura.sensor_id],
     );
 
     await client.query('COMMIT');

@@ -1,4 +1,4 @@
-# Como rodar - estado atual do projeto (Etapa 2)
+# Como rodar - estado atual do projeto (Etapa 3)
 
 ## Pré-requisitos
 
@@ -54,10 +54,38 @@ curl "http://localhost:3000/leituras?sensor_id=1"
 
 Detalhes de todos os endpoints, decisões de implementação e mais exemplos de teste em `backend/README.md`.
 
+## Passo 3 - Simulador IoT (leituras via MQTT)
+
+Com a infraestrutura (passo 1) e o backend (passo 2) já no ar, em um **terceiro terminal**:
+
+```bash
+cd iot/simulator
+cp .env.example .env
+npm install
+
+npm start
+```
+
+Você verá o simulador publicando uma leitura de água e uma de energia a cada 5 segundos, e no terminal do backend (passo 2) o log confirmando cada leitura recebida via MQTT (`"Leitura registrada via MQTT"`). Para conferir que os dados realmente chegaram ao banco:
+
+```bash
+curl "http://localhost:3000/leituras?sensor_id=1"
+```
+
+Para simular um possível vazamento (consumo de água constante e elevado, cenário citado no roteiro de demonstração do MVP), pare o simulador (`Ctrl+C`) e rode:
+
+```bash
+npm run start:anomalia
+```
+
+A Etapa 5 (detecção de desperdício) vai usar exatamente esse padrão de consumo para gerar um alerta automaticamente. Por enquanto, as leituras só são persistidas — sem alerta.
+
+Detalhes de implementação do simulador em `iot/README.md`.
+
 ## Para desligar tudo
 
 ```bash
-# Pare o backend com Ctrl+C no terminal onde ele está rodando (npm run dev)
+# Pare o simulador (Ctrl+C) e o backend (Ctrl+C), nos respectivos terminais
 
 # E os serviços de infraestrutura:
 docker compose down
@@ -68,4 +96,4 @@ docker compose down -v
 
 ## Nas próximas etapas
 
-Conforme o simulador IoT e o frontend forem implementados, este documento será atualizado (veja `docs/ROADMAP.md`). Na Etapa 9, backend e frontend entram no `docker-compose.yml`, e todo o sistema sobe com um único `docker compose up`.
+Conforme o dashboard (frontend) for implementado, este documento será atualizado (veja `docs/ROADMAP.md`). Na Etapa 9, backend e frontend entram no `docker-compose.yml`, e todo o sistema sobe com um único `docker compose up`.

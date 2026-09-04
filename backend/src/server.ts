@@ -2,6 +2,8 @@ import { createApp } from './app';
 import { env } from './config/env';
 import { checkDatabaseConnection, pool } from './config/db';
 import { logger } from './utils/logger';
+import { createMqttClient } from './mqtt/client';
+import { iniciarConsumidorMqtt } from './mqtt/subscriber';
 
 async function start(): Promise<void> {
   // Falha rápido e com uma mensagem clara se o banco não estiver
@@ -22,8 +24,14 @@ async function start(): Promise<void> {
     logger.info(`SenseControl backend rodando na porta ${env.port}`, { nodeEnv: env.nodeEnv });
   });
 
+  // A conexão MQTT é iniciada em paralelo, sem bloquear a subida do
+  // servidor HTTP - ver mqtt/client.ts para o porquê.
+  const mqttClient = createMqttClient();
+  iniciarConsumidorMqtt(mqttClient);
+
   const shutdown = async (signal: string): Promise<void> => {
     logger.info(`Recebido ${signal}, encerrando graciosamente...`);
+    mqttClient.end(true);
     server.close(() => {
       pool.end().finally(() => process.exit(0));
     });

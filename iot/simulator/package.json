@@ -1,0 +1,26 @@
+{
+  "name": "sensecontrol-iot-simulator",
+  "version": "0.1.0",
+  "description": "SenseControl - simulador de sensores IoT (agua/energia), publica leituras via MQTT",
+  "private": true,
+  "scripts": {
+    "start": "tsx src/simulator.ts",
+    "start:anomalia": "MODO=anomalia tsx src/simulator.ts",
+    "lint": "eslint \"src/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mqtt": "^5.10.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.2",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.3"
+  }
+}

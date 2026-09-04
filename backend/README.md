@@ -21,12 +21,22 @@ Os endpoints `/locais` não estavam na tabela de rotas da seção 9 da documenta
 
 Ainda **sem autenticação** (chega na Etapa 7) — por isso `PUT /usuarios/:id` e os cadastros aceitam qualquer chamada por enquanto. `POST /auth/registrar` e `POST /auth/login` também ficam para a Etapa 7.
 
+## Ingestão de leituras via MQTT (Etapa 3)
+
+Além de `POST /leituras`, o backend assina o broker MQTT (`sensores/+/leitura`) e registra cada leitura publicada pelo simulador IoT (`iot/simulator/`) ou, no futuro, por um dispositivo ESP32 real — veja `src/mqtt/client.ts` e `src/mqtt/subscriber.ts`.
+
+Não é um caminho de código duplicado: o subscriber reaproveita o mesmo schema Zod (`criarLeituraSchema`) e o mesmo service (`registrarLeitura`) usados por `POST /leituras`. A regra de negócio é uma só; só muda o transporte de entrada. Mensagens malformadas (JSON inválido, dados fora do schema, sensor inexistente) são descartadas e logadas, sem derrubar o processo.
+
+Como consequência do fluxo de leituras (seção 5 da documentação técnica), a primeira leitura recebida de um dispositivo — por HTTP ou MQTT — também atualiza seu status de `aguardando_conexao` para `ativo` (ver `src/services/leituras.service.ts`).
+
+A conexão MQTT é iniciada de forma não bloqueante: se o broker estiver fora do ar, a API HTTP sobe normalmente e o backend só loga tentativas de reconexão (`MQTT_URL` no `.env`).
+
 ## Decisões de implementação
 
 - **Validação:** todo corpo/query de requisição passa por um schema [Zod](https://zod.dev/) antes de tocar o banco — inclusive validações de negócio, como a combinação `tipo`/`unidade_medida` de um sensor (água ⇒ litros, energia ⇒ kWh) e a faixa plausível de valor de uma leitura (configurável via `LEITURA_VALOR_MAXIMO`).
 - **Erros:** um middleware central (`src/middlewares/errorHandler.ts`) converte qualquer erro (validação, regra de negócio via `ApiError`, ou erro inesperado) num JSON `{ erro, detalhes? }` com o status HTTP correto, sem vazar detalhes internos numa resposta 500.
 - **Logs:** todo request loga método/rota/status/duração; erros de servidor logam a mensagem e stack no servidor (nunca senha/token) — ver `src/utils/logger.ts`.
-- **Leituras e agregação diária:** ao registrar uma leitura, o backend também atualiza `consumo_diario` na mesma transação (ver `src/services/leituras.service.ts`), seguindo o fluxo descrito na seção 10 da documentação técnica. A detecção de desperdício/alertas (também citada nesse fluxo) fica para a Etapa 5.
+- **Leituras e agregação diária:** ao registrar uma leitura (via HTTP ou MQTT), o backend também atualiza `consumo_diario` na mesma transação (ver `src/services/leituras.service.ts`), seguindo o fluxo descrito na seção 10 da documentação técnica. A detecção de desperdício/alertas (também citada nesse fluxo) fica para a Etapa 5.
 
 ## Como rodar localmente (fora do Docker)
 
@@ -71,4 +81,4 @@ npm run format   # Prettier
 
 ## Próximas etapas
 
-Autenticação (Etapa 7), simulador IoT publicando via MQTT (Etapa 3), detecção de desperdício e alertas (Etapa 5), recomendações (Etapa 6), documentação Swagger e testes automatizados (Etapa 8). Veja `docs/ROADMAP.md` na raiz do projeto.
+Dashboard consumindo essa API (Etapa 4), detecção de desperdício e alertas (Etapa 5), recomendações (Etapa 6), autenticação (Etapa 7), documentação Swagger e testes automatizados (Etapa 8). Veja `docs/ROADMAP.md` na raiz do projeto.
