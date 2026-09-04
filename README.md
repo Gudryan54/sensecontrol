@@ -39,7 +39,7 @@ sensecontrol/
 **Trabalho acadêmico em desenvolvimento.** Este repositório está sendo construído em etapas, cada uma implementada, testada e documentada antes de avançar para a próxima (veja `docs/ROADMAP.md`). O estado atual é:
 
 - [x] Etapa 1 - Estrutura do repositório, Docker Compose (banco de dados + broker MQTT), schema do banco e dados de demonstração.
-- [ ] Etapa 2 - Backend: API de cadastros e leituras.
+- [x] Etapa 2 - Backend: API de cadastros e leituras.
 - [ ] Etapa 3 - Simulador IoT + ingestão via MQTT.
 - [ ] Etapa 4 - Dashboard.
 - [ ] Etapa 5 - Detecção de desperdício e alertas.
